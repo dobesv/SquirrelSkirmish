@@ -221,7 +221,7 @@ GameScene = pc.Scene.extend('GameScene',
           var controls = controlSchemes[controlSchemeNames[this.players.length]];
           ent.addComponent(PlayerComponent.create({
             controls: controls,
-            animsName:playerN,
+            animsName: playerN,
             spawnPoint: pc.Dim.create(spatial.pos.x, spatial.pos.y)
           }));
           this.players.push(ent);

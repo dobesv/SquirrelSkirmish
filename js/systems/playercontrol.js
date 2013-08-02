@@ -5,7 +5,7 @@ var controlSchemes = {
   },
   IJKL:{
     up:'I', left:'J', down:'K', right:'L', jump:'ALT',
-    punch:',', kick:'.', throw:'/'
+    punch:'n', kick:'m', throw:','
   },
   'ARROWS':{
     up:'UP', left:'LEFT', down:'DOWN', right:'RIGHT', jump:'CTRL',
@@ -67,7 +67,7 @@ PlayerControlSystem = pc.systems.EntitySystem.extend('PlayerControlSystem',
           shapes:getAnimShapes(c.animsName),
           collisionGroup:COLLIDE_PLAYER,
           collisionCategory:COLLIDE_PLAYER,
-          collisionMask:COLLIDE_FLOOR|COLLIDE_WALL|COLLIDE_ENEMY|COLLIDE_PICKUP|COLLIDE_MUSHROOM
+          collisionMask:PLAYER_COLLISION_MASK
         }));
         player.addComponent(NoiseMaker.create({}));
       },
@@ -110,6 +110,12 @@ PlayerControlSystem = pc.systems.EntitySystem.extend('PlayerControlSystem',
         var playerPhysics = player.getComponent('physics');
         var playerPos = playerSpatial.getPos();
 
+        if(c.dead) {
+          if(pc.device.lastFrame >= c.respawnTime) {
+            c.respawn();
+          }
+          return;
+        }
         if(pc.device.game.gameScene.levelComplete) {
           c.active = false;
           playerPhysics.setCollisionMask(0);

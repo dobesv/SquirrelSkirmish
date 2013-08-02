@@ -7,6 +7,7 @@ TheGame = pc.Game.extend('TheGame',
     {
       gameScene:null,
       menuScene:null,
+      activePlayers:[true,true,true,true],
 
       onReady:function ()
       {
@@ -19,6 +20,8 @@ TheGame = pc.Game.extend('TheGame',
         // no resources are loaded in this template, so this is all commented out
         ['map1.jpg',
          'title_screen.jpg',
+         'squirrel_1_black_menu.png',
+         'squirrel_2_black_menu.png',
          'but-start-up.png',
          'but-start-down.png',
          'but-start-hover.png'].forEach(loadImage);
@@ -27,7 +30,7 @@ TheGame = pc.Game.extend('TheGame',
 
         ['applause'].forEach(loadSound);
 
-        ['orb_pickup', 'bounce', 'jump', 'land'].forEach(function(s) { loadSound(s, 5); });
+        ['orb_pickup', 'bounce', 'jump', 'land', 'die', 'knock', 'ouch'].forEach(function(s) { loadSound(s, 5); });
 
         // fire up the loader
         pc.device.loader.start(this.onLoading.bind(this), this.onLoaded.bind(this));

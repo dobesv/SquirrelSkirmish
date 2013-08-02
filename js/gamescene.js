@@ -6,7 +6,9 @@ var COLLIDE_ENEMY=8;
 var COLLIDE_PICKUP=16;
 var COLLIDE_MUSHROOM=32;
 var COLLIDE_CUTSCENE=64;
-
+var PLAYER_COLLISION_MASK = COLLIDE_FLOOR|COLLIDE_WALL|COLLIDE_ENEMY|COLLIDE_PICKUP|COLLIDE_MUSHROOM;
+var PROJECTILE_COLLISION_MASK = COLLIDE_FLOOR|COLLIDE_WALL|COLLIDE_ENEMY|COLLIDE_PLAYER;
+var INACTIVE_PROJECTILE_COLLISION_MASK = COLLIDE_FLOOR|COLLIDE_WALL;
 /**
  * GameScene
  * A template game scene
@@ -61,6 +63,7 @@ GameScene = pc.Scene.extend('GameScene',
         this.gameLayer.addSystem(playerControlSystem);
         this.gameLayer.addSystem(this.pickupSystem = new PickupSystem());
         this.gameLayer.addSystem(this.noiseSystem = new NoiseSystem());
+        this.gameLayer.addSystem(new ProjectileSystem());
 
 
         physics.createStaticBody(   0,   0,   1,wh,  0, COLLIDE_WALL, COLLIDE_PLAYER); // left
@@ -104,6 +107,10 @@ GameScene = pc.Scene.extend('GameScene',
               this.playingCutscene = b;
             }
           }
+        }
+        if(a.hasComponentOfType('projectile'))
+        {
+          a.getComponent('projectile').onCollisionStart(b);
         }
       },
 
@@ -224,6 +231,7 @@ GameScene = pc.Scene.extend('GameScene',
             animsName: playerN,
             spawnPoint: pc.Dim.create(spatial.pos.x, spatial.pos.y)
           }));
+          ent.active = pc.device.game.activePlayers[this.players.length];
           this.players.push(ent);
         }
 

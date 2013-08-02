@@ -10,5 +10,5 @@ Programming by [Dobes Vandermeer](http://dobesv.com).
 Sounds:
 
  - orb_pickup is from http://freesound.org/people/Soughtaftersounds/sounds/145459/
- - jump/bounce/land from http://www.freesfx.co.uk
+ - jump/bounce/die/knock from http://www.freesfx.co.uk
 

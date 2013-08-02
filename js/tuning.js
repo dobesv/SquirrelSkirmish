@@ -12,13 +12,13 @@ Parameters = {
 
   minMsBetweenThrowAndNextAttack: 1000,
 
-  nutMass: 0.1,
+  nutMass: 1,
   nutBounce: 0.7,
-  nutBaseSpeed: 100,
-  nutThrowUpSpeed: 200,
+  nutBaseSpeed: 200,
+  nutThrowUpSpeed: 100,
 
   nutLifetimeMs: 5500,
 
-  respawnDelayMs: 1000
+  respawnDelayMs: 3000
 
 }

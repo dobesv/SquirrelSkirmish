@@ -36,12 +36,22 @@ PlayerComponent = pc.components.Component.extend('PlayerComponent',
       die:function() {
         this.dead = true;
         this.respawnTime = pc.device.lastFrame + Parameters.respawnDelayMs;
-
+        var ent = this.getEntity();
+        //ent.getComponent('sprite').active = false;
+        //ent.getComponent('physics').active = false;
+        var physics = ent.getComponent('physics');
+        physics.setCollisionMask(0);
+        physics.applyImpulse(Parameters.jump*2, -90);
       },
 
       respawn:function() {
-        this.dead = false;
+        var ent = this.getEntity();
+        //ent.getComponent('sprite').active = true;
+        //ent.getComponent('physics').active = true;
+        ent.getComponent('physics').setCollisionMask(PLAYER_COLLISION_MASK);
         this.teleport(this.spawnPoint);
+        this.dead = false;
+        this.hits = 0;
       },
 
       teleport:function(where) {
@@ -57,10 +67,10 @@ PlayerComponent = pc.components.Component.extend('PlayerComponent',
         var nut = pc.Entity.create(gameLayer);
         var nutAnim = getAnim('nut');
 
-        var startVelocity = pc.Dim.create(Parameters.nutBaseSpeed*horizontalDirection,Parameters.nutThrowUpSpeed);
+        var startVelocity = pc.Dim.create(Parameters.nutBaseSpeed*horizontalDirection,-Parameters.nutThrowUpSpeed);
         if(playerVelocity) {
           startVelocity.x += playerVelocity.x;
-          //startVelocity.y += playerVelocity.y;
+          startVelocity.y += playerVelocity.y;
         }
         var nutSpatial;
         nut.addComponent(pc.components.Sprite.create({
@@ -69,7 +79,7 @@ PlayerComponent = pc.components.Component.extend('PlayerComponent',
         }));
         nut.addComponent(nutSpatial = pc.components.Spatial.create({
           x: playerCenter.x + 20*horizontalDirection,
-          y: playerCenter.y + 10,
+          y: playerCenter.y - 10,
           w: nutAnim.getFrameWidth(),
           h: nutAnim.getFrameHeight()
         }));
@@ -84,18 +94,22 @@ PlayerComponent = pc.components.Component.extend('PlayerComponent',
           collisionMask:COLLIDE_PLAYER|COLLIDE_FLOOR|COLLIDE_WALL,
           linearVelocity: startVelocity
         }));
+        nut.addComponent(ProjectileComponent.create({activateDelayMs:50}));
         nut.addComponent(pc.components.Expiry.create({lifetime:Parameters.nutLifetimeMs}));
         nut.addTag('nut');
-        nut.minHitTime = pc.device.lastFrame + 100;
       },
 
       hitByNut: function(nut) {
-        if(pc.device.lastFrame < nut.minHitTime)
+        if(pc.device.lastFrame < nut.getComponent('projectile').activateTime)
           return;
         nut.remove();
-        this.die();
-        this.respawn();
         this.hits ++ ;
+        if(this.hits == 3) {
+          playSound('die');
+          this.die();
+        } else {
+          playSound('ouch');
+        }
       },
 
       onPickupEnergy:function(amount) {

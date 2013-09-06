@@ -16,30 +16,23 @@ var controlSchemes = {
     punch:'NUM_1', kick:'NUM_2', throw:'NUM_3'
   }
 };
+
+
 controlSchemeNames = [];
 for(k in controlSchemes) {
   controlSchemeNames.push(k);
 }
 PlayerControlSystem = pc.systems.EntitySystem.extend('PlayerControlSystem',
-    {},
+    {
+    },
     {
       input:null,
-      godmode:false,
-      windSpeed:Parameters.windSpeed,
-      fallSpeed:Parameters.fallSpeed,
-      waterLevel: Parameters.waterLevel,
-      recoveryRateAdjust: 0,
-      drainRateAdjust:0,
 
       init: function()
       {
         this._super(['player']);
-        this.godmode = pc.device.game.hasHashState('god');
-        this.windSpeed = parseFloat(pc.device.game.getHashState('windSpeed', '0')) || this.windSpeed;
-        this.fallSpeed = parseFloat(pc.device.game.getHashState('fallSpeed', '0')) || this.fallSpeed;
-        this.recoveryRateAdjust = parseFloat(pc.device.game.getHashState('recoveryRateAdjust', '0')) || this.recoveryRateAdjust;
-        this.drainRateAdjust = parseFloat(pc.device.game.getHashState('drainRateAdjust', '0')) || this.drainRateAdjust;
       },
+
 
       onEntityAdded:function(player) {
         var c = player.getComponent('player');
@@ -125,8 +118,8 @@ PlayerControlSystem = pc.systems.EntitySystem.extend('PlayerControlSystem',
           return;
         }
 
-        var isOn = function isOn(s) {
-          return this.input.isInputState(player, s);
+        var isOn = function isOn(s, cs) {
+          return this.input.isInputState(player, s) || bm.isPressed(c.playerNum, cs || s);
         }.bind(this);
 
 
@@ -134,7 +127,7 @@ PlayerControlSystem = pc.systems.EntitySystem.extend('PlayerControlSystem',
         if(pc.device.game.gameScene.playingCutscene)
         {
           sprite.setAnimation('stand', 0, false);
-          if(isOn('up')) pc.device.game.gameScene.playingCutscene = null;
+          if(isOn('jump')) pc.device.game.gameScene.playingCutscene = null;
         }
         else
         {
@@ -143,7 +136,7 @@ PlayerControlSystem = pc.systems.EntitySystem.extend('PlayerControlSystem',
           var topSpeed = Parameters.playerTopSpeed;
           var topForce = Parameters.playerTopForce;
           var linearVelocity = playerPhysics.getLinearVelocity();
-          if(isOn('up') && c.onGround && linearVelocity.y > -Parameters.jump)
+          if(isOn('jump') && c.onGround && linearVelocity.y > -Parameters.jump)
           {
             playerPhysics.applyImpulse(Parameters.jump, -90);
             playSound('jump');
@@ -165,7 +158,7 @@ PlayerControlSystem = pc.systems.EntitySystem.extend('PlayerControlSystem',
           );
 
           if(c.nextAttackTime < pc.device.lastFrame) {
-            if(isOn('throw')) {
+            if(isOn('throw', 'fire')) {
               c.spawnNut(player.layer, playerSpatial.getCenterPos(), linearVelocity, sprite.scaleX > 0 ? 1 : -1);
             }
 

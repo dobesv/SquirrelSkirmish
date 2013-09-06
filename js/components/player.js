@@ -18,6 +18,7 @@ PlayerComponent = pc.components.Component.extend('PlayerComponent',
       nextAttackTime: 0,
       hits: 0, // number of times hit
       spawnPoint: null,
+      playerNum: 0,
 
       init: function(options) {
         this._super('player');
@@ -31,6 +32,7 @@ PlayerComponent = pc.components.Component.extend('PlayerComponent',
         this.controls = pc.checked(options.controls, controlSchemes.WASD);
         this.animsName = pc.checked(options.animsName, 'player1');
         this.spawnPoint = options.spawnPoint;
+        this.playerNum = pc.checked(options.playerNum, 1);
       },
 
       die:function() {

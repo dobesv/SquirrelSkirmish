@@ -214,7 +214,8 @@ GameScene = pc.Scene.extend('GameScene',
         } else if(type == 'player') {
           var spatial;
           ent.addTag('player');
-          var playerN = 'player'+(this.players.length+1);
+          var playerNum = this.players.length;
+          var playerN = 'player'+(playerNum+1);
           var ss = getAnim(playerN);
           ent.addComponent(sprite = pc.components.Sprite.create({spriteSheet:ss}));
           var frameWidth = ss.getFrameWidth();
@@ -229,7 +230,8 @@ GameScene = pc.Scene.extend('GameScene',
           ent.addComponent(PlayerComponent.create({
             controls: controls,
             animsName: playerN,
-            spawnPoint: pc.Dim.create(spatial.pos.x, spatial.pos.y)
+            spawnPoint: pc.Dim.create(spatial.pos.x, spatial.pos.y),
+            playerNum: playerNum
           }));
           ent.active = pc.device.game.activePlayers[this.players.length];
           this.players.push(ent);

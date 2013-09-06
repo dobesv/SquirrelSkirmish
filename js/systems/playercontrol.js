@@ -1,18 +1,18 @@
 var controlSchemes = {
   WASD:{
-    up:'W', left:'A', down:'S', right:'D', jump:'SPACE',
+    up:'W', left:'A', down:'S', right:'D', jump:'W',
     punch:'C', kick:'V', throw:'B'
   },
   IJKL:{
-    up:'I', left:'J', down:'K', right:'L', jump:'ALT',
+    up:'I', left:'J', down:'K', right:'L', jump:'I',
     punch:'n', kick:'m', throw:','
   },
   'ARROWS':{
-    up:'UP', left:'LEFT', down:'DOWN', right:'RIGHT', jump:'CTRL',
+    up:'UP', left:'LEFT', down:'DOWN', right:'RIGHT', jump:'UP',
     punch:'[', kick:']', throw:'\\'
   },
   'NUMPAD':{
-    up:'NUM_8', left:'NUM_4', down:'NUM_5', right:'NUM_6', jump:'ENTER',
+    up:'NUM_8', left:'NUM_4', down:'NUM_5', right:'NUM_6', jump:'NUM_8',
     punch:'NUM_1', kick:'NUM_2', throw:'NUM_3'
   }
 };

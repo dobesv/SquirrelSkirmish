@@ -10,20 +10,29 @@
       touchEnabled: false,
       accelerometerEnabled: false,
       images:[
+        "images/bm-controller-background.png",
         "images/button-left-up.png",
         "images/button-left-down.png",
         "images/button-right-up.png",
         "images/button-right-down.png",
-        "images/button-fire-up.png",
-        "images/button-fire-down.png",
         "images/button-jump-up.png",
-        "images/button-jump-down.png"
+        "images/button-jump-down.png",
+        "images/button-fire-up.png",
+        "images/button-fire-down.png"
       ],
       layout:[{
+        type:   "image",
+        image:  0,
+        x:      0,
+        y:      0,
+        width:  480,
+        height: 320
+      },
+        {
         type: "button",
         handler: "left",
-        imageUp: 0,
-        imageDown: 1,
+        imageUp: 1,
+        imageDown: 2,
         x:          37,
         y:          200,
         width:      80,
@@ -32,8 +41,8 @@
         {
           type: "button",
           handler: "right",
-          imageUp: 2,
-          imageDown: 3,
+          imageUp: 3,
+          imageDown: 4,
           x:          117,
           y:          200,
           width:      80,
@@ -42,8 +51,8 @@
         {
           type: "button",
           handler: "jump",
-          imageUp: 4,
-          imageDown: 5,
+          imageUp: 5,
+          imageDown: 6,
           x:          277,
           y:          200,
           width:      80,
@@ -52,8 +61,8 @@
         {
           type: "button",
           handler: "fire",
-          imageUp: 6,
-          imageDown: 7,
+          imageUp: 7,
+          imageDown: 8,
           x:          357,
           y:          200,
           width:      80,

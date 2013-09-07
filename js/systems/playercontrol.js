@@ -147,9 +147,9 @@ PlayerControlSystem = pc.systems.EntitySystem.extend('PlayerControlSystem',
           if(c.onGround || moveX != 0)
             playerPhysics.applyForce(Math.max(-topForce, Math.min(topForce, moveX-linearVelocity.x)), 0);
 
-          sprite.setAnimation(c.onGround && moveX != 0 ? 'run' : 'stand', 0, false);
-          if(moveX < 0) sprite.scaleX = -Math.abs(sprite.scaleX);
-          else if(moveX > 0) sprite.scaleX = Math.abs(sprite.scaleX);
+          sprite.setAnimation(c.onGround ? moveX != 0 ? 'run' : 'stand' : 'jump', 0, false);
+          if(moveX < 0) sprite.scaleX = Math.abs(sprite.scaleX);
+          else if(moveX > 0) sprite.scaleX = -Math.abs(sprite.scaleX);
 
           playerPhysics.setCollisionMask(
               (linearVelocity.x != 0 || moveX != 0 ? COLLIDE_WALL : 0) |

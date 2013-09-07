@@ -159,7 +159,7 @@ PlayerControlSystem = pc.systems.EntitySystem.extend('PlayerControlSystem',
 
           if(c.nextAttackTime < pc.device.lastFrame) {
             if(isOn('throw', 'fire')) {
-              c.spawnNut(player.layer, playerSpatial.getCenterPos(), linearVelocity, sprite.scaleX > 0 ? 1 : -1);
+              c.spawnNut(player.layer, playerSpatial.getCenterPos(), linearVelocity, sprite.scaleX < 0 ? 1 : -1);
             }
 
           }
